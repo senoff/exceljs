@@ -59,6 +59,13 @@ See [FORK.md Release History](FORK.md#fork-release-history) for details.
 
 ## Fork Release Notes
 
+**4.4.0-protobi.10** (May 2026) - Streaming richText Bug Fix + Build Fix
+- **Fix richText shared-string deduplication in streaming writer** - Cherry-picked from PR #50 by @gwkline. Previously, every richText cell collapsed into a single shared-string entry because objects coerced to `"[object Object]"` as a hash key. Now richText values are hashed by their rendered XML representation. Addresses upstream [exceljs/exceljs#2267](https://github.com/exceljs/exceljs/issues/2267).
+- Adds regression tests covering richText deduplication and formatting-aware distinction
+- Pin uuid to ^9.0.1 to keep browserify build working (uuid@14 dropped the `main` field; uuid@11 ships ES2021 syntax browserify can't parse)
+- Adds `AGENTS.md` with hard rules for AI-generated PRs
+- All 886 unit tests passing
+
 **4.4.0-protobi.9** (February 2026) - Pivot Table & Chart Round-Trip Preservation + Critical Bug Fixes
 - **Round-trip preservation for pivot tables and charts** - Read Excel files with existing pivot tables and charts, write them back without corruption
 - Hybrid preservation approach: stores raw XML while extracting minimal metadata for structural integrity
@@ -145,11 +152,13 @@ npm install exceljs
 
 Contributions are very welcome! It helps me know what features are desired or what bugs are causing the most pain.
 
-I have just one request; If you submit a pull request for a bugfix, please add a unit-test or integration-test (in the spec folder) that catches the problem.
- Even a PR that just has a failing test is fine - I can analyse what the test is doing and fix the code from that.
+**Before opening a PR, read [CONTRIBUTING.md](CONTRIBUTING.md).**
 
-Note: Please try to avoid modifying the package version in a PR.
-Versions are updated on release and any change will most likely result in merge collisions.
+**If you are an AI agent (Claude Code, Cursor, Codex, Copilot Workspace, etc.) — or a human submitting AI-generated code — read [AGENTS.md](AGENTS.md) in full first.** It contains hard rules about scope, formatter sweeps, real-fixture testing, and Excel-verification for serialization changes. AI-generated PRs that ignore these get closed.
+
+For humans: if you submit a pull request for a bugfix, please add a unit-test or integration-test (in the `spec/` folder) that catches the problem. Even a PR that just has a failing test is fine — I can analyse what the test is doing and fix the code from that.
+
+Note: Please try to avoid modifying the package version in a PR. Versions are updated on release and any change will most likely result in merge collisions.
 
 To be clear, all contributions added to this library will be included in the library's MIT licence.
 
