@@ -1936,6 +1936,14 @@ export namespace stream {
 			 * Styles can add some performance overhead. Default is false
 			 */
 			useStyles: boolean;
+
+			/**
+			 * XLS-352: an optional Date stamped as the mtime of EVERY zip entry the writer emits, so
+			 * the output is byte-deterministic across runs (a per-entry `date` otherwise defaults to
+			 * `new Date()`). Applies to both the streaming WorkbookWriter and the buffered
+			 * `xlsx.write`/`writeBuffer` path. When omitted, entries keep the wall clock.
+			 */
+			zipEntryDate?: Date;
 		}
 
 		interface ArchiverZipOptions {
